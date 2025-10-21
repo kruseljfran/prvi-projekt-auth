@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Uplata listića</title>
+</head>
+<body>
+    <h1>Uplata loto listića 6/45</h1>
+
+    <% if (error) { %>
+        <p style="color:red;"><%= error %></p>
+    <% } %>
+
+    <form action="/ticket" method="POST">
+        <label for="idNumber">Broj osobne iskaznice / putovnice:</label><br>
+        <input type="text" id="idNumber" name="idNumber" maxlength="20" required><br><br>
+
+        <label for="numbers">6-10 Brojeva (1–45, odvojeni zarezom):</label><br>
+        <input type="text" id="numbers" name="numbers" placeholder="npr. 3,12,25,33,41,44" required><br><br>
+
+        <button type="submit">Pošalji listić</button>
+    </form>
+
+    <p><a href="/">Povratak na početnu</a></p>
+</body>
+</html>

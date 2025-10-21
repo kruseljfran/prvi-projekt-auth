@@ -1,0 +1,15 @@
+<%- include('partials/header') %>
+
+<h2>Detalji listića</h2>
+<p><strong>ID:</strong> <%= ticket.id %></p>
+<p><strong>Osobna:</strong> <%= ticket.id_number %></p>
+<p><strong>Brojevi:</strong> <%= ticket.numbers.join(', ') %></p>
+
+<% if (round && round.draw_numbers) { %>
+  <h3>Izvučeni brojevi:</h3>
+  <p><%= round.draw_numbers.join(', ') %></p>
+<% } else { %>
+  <p>Još nema izvučenih brojeva za ovo kolo.</p>
+<% } %>
+
+<%- include('partials/footer') %>
