@@ -9,12 +9,10 @@ dotenv.config();
 
 const router = express.Router();
 
-// Početna stranica — prikazuje podatke o trenutnom kolu i korisniku
 router.get("/", async (req, res) => {
   try {
     const user = (req as any).oidc?.user || null;
 
-    // Dohvati trenutno kolo (ako postoji)
     const result = await pool.query("SELECT * FROM rounds ORDER BY id DESC LIMIT 1");
     const currentRound = result.rows[0] || null;
 
@@ -29,17 +27,14 @@ router.get("/ticket", (req: Request, res: Response) => {
   res.render("ticket", { error: null });
 });
 
-// POST /ticket - obrada uplate listića
 router.post("/ticket", async (req: Request, res: Response) => {
   try {
     const { idNumber, numbers } = req.body;
 
-    // Validacija idNumber
     if (!idNumber || idNumber.length > 20) {
       return res.render("ticket", { error: "Neispravan broj osobne iskaznice/putovnice." });
     }
 
-    // Validacija brojeva
     if (!numbers) {
       return res.render("ticket", { error: "Polje brojevi ne smije biti prazno." });
     }
@@ -60,28 +55,23 @@ router.post("/ticket", async (req: Request, res: Response) => {
       return res.render("ticket", { error: "Brojevi ne smiju sadržavati duplikate." });
     }
 
-    // Dohvati trenutno kolo
     const { rows: rounds } = await pool.query("SELECT * FROM rounds WHERE active = TRUE ORDER BY id DESC LIMIT 1");
     if (rounds.length === 0) {
       return res.render("ticket", { error: "Trenutno nema aktivnog kola." });
     }
     const currentRound = rounds[0];
 
-    // Generiraj UUID za listić
     const ticketId = uuidv4();
 
-    // Spremi u bazu
     await pool.query(
       "INSERT INTO tickets (id, personal_id, numbers, round_id) VALUES ($1, $2, $3, $4)",
       [ticketId, idNumber, nums, currentRound.id]
     );
 
-    // Generiraj QR kod (sadrži URL za prikaz listića)
   const baseUrl = process.env.AUTH0_BASE_URL;
   const qrUrl = `${baseUrl}/ticket/${ticketId}`;
   const qrImage = await QRCode.toDataURL(qrUrl);
 
-    // Vrati stranicu s QR kodom
     res.render("ticketConfirm", { qrImage });
 
   } catch (error) {
@@ -94,7 +84,6 @@ router.get("/ticket/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    // Dohvati listić po UUID-u
     const ticketResult = await pool.query(
       "SELECT * FROM tickets WHERE id = $1",
       [id]
@@ -106,7 +95,6 @@ router.get("/ticket/:id", async (req: Request, res: Response) => {
 
     const ticket = ticketResult.rows[0];
 
-    // Dohvati pripadajuće kolo
     const roundResult = await pool.query(
       "SELECT * FROM rounds WHERE id = $1",
       [ticket.round_id]

@@ -5,16 +5,11 @@ import m2mAuth from "../middleware/m2mAuth";
 const router = express.Router();
 
 
-/**
- * POST /new-round
- * Aktivira novo kolo (ako trenutno nema aktivnog)
- */
 router.post("/new-round", m2mAuth, async (req: Request, res: Response) => {
   try {
     const activeRound = await pool.query("SELECT * FROM rounds WHERE active = TRUE");
 
     if (activeRound.rows.length > 0) {
-      // Već postoji aktivno kolo → nema efekta
       return res.sendStatus(204);
     }
 
@@ -26,10 +21,6 @@ router.post("/new-round", m2mAuth, async (req: Request, res: Response) => {
   }
 });
 
-/**
- * POST /close
- * Zatvara trenutno aktivno kolo
- */
 router.post("/close", m2mAuth, async (req: Request, res: Response) => {
   try {
     const result = await pool.query(
@@ -37,7 +28,6 @@ router.post("/close", m2mAuth, async (req: Request, res: Response) => {
     );
 
     if (result.rowCount === 0) {
-      // Nema aktivnog kola → nema efekta
       return res.sendStatus(204);
     }
 
@@ -48,10 +38,6 @@ router.post("/close", m2mAuth, async (req: Request, res: Response) => {
   }
 });
 
-/**
- * POST /store-results
- * Sprema izvučene brojeve za trenutno kolo
- */
 router.post("/store-results", m2mAuth, async (req: Request, res: Response) => {
   try {
     const { numbers } = req.body;

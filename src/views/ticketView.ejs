@@ -1,15 +1,31 @@
-<%- include('partials/header') %>
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalji listića</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="ticket-container">
+    <h2 class="ticket-title">Detalji listića</h2>
 
-<h2>Detalji listića</h2>
-<p><strong>ID:</strong> <%= ticket.id %></p>
-<p><strong>Osobna:</strong> <%= ticket.id_number %></p>
-<p><strong>Brojevi:</strong> <%= ticket.numbers.join(', ') %></p>
+    <div class="ticket-info">
+      <p><strong>ID:</strong> <span class="ticket-id"><%= ticket.id %></span></p>
+      <p><strong>Osobna:</strong> <span class="ticket-personal-id"><%= ticket.personal_id %></span></p>
+      <p><strong>Brojevi:</strong> <span class="ticket-numbers"><%= ticket.numbers.join(', ') %></span></p>
+    </div>
 
-<% if (round && round.draw_numbers) { %>
-  <h3>Izvučeni brojevi:</h3>
-  <p><%= round.draw_numbers.join(', ') %></p>
-<% } else { %>
-  <p>Još nema izvučenih brojeva za ovo kolo.</p>
-<% } %>
-
-<%- include('partials/footer') %>
+    <% if (round && round.draw_numbers) { %>
+      <div class="ticket-draw">
+        <h3 class="draw-title">Izvučeni brojevi:</h3>
+        <p class="draw-numbers"><%= round.draw_numbers.join(', ') %></p>
+      </div>
+    <% } else { %>
+      <div class="ticket-draw">
+        <p class="draw-placeholder">Još nema izvučenih brojeva za ovo kolo.</p>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

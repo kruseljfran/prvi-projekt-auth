@@ -3,23 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>Loto Aplikacija</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        max-width: 600px;
-        margin: 50px auto;
-        text-align: center;
-      }
-      .box {
-        border: 1px solid #ddd;
-        padding: 20px;
-        border-radius: 12px;
-        background: #f9f9f9;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
-    <h1>🎰 Loto 6/45</h1>
+    <h1>Loto 6/45</h1>
 
     <% if (user) { %>
       <p>Prijavljeni ste kao: <strong><%= user.name %></strong></p>
@@ -47,7 +34,7 @@
 
     <% if (user && round && round.active) { %>
       <hr />
-      <a href="/ticket">🎟️ Uplati listić</a>
+      <a href="/ticket">Uplati listić</a>
     <% } %>
   </body>
 </html>
