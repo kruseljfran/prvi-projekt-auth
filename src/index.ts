@@ -41,6 +41,6 @@ app.use((err: any, _req: any, res: any, _next: any) => {
   return res.status(500).json({ error: "Internal server error" });
 });
 
-// app.listen(PORT, () => {
-//   console.log(`Server pokrenut na http://localhost:${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`Server pokrenut na ${PORT}`);
+});
