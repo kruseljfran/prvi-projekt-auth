@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "ts-node src/index.ts",
-    "build": "tsc",
+    "build": "tsc && npm run copy-public",
+    "copy-public": "cpx \"public/**/*\" dist/public",
     "start": "node dist/index.js"
   },
   "keywords": [],
@@ -29,6 +30,7 @@
     "@types/node": "^24.9.1",
     "@types/pg": "^8.15.5",
     "@types/uuid": "^10.0.0",
+    "cpx": "^1.5.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
