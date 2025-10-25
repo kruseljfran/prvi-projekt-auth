@@ -19,7 +19,7 @@
 
     <div class="box">
       <% if (round) { %>
-        <% if (typeof ticketCount === 'number') { %>
+        <% if (typeof ticketCount === 'number' && ticketCount > 0) { %>
           <p><strong>Broj uplaćenih listića:</strong> <%= ticketCount %></p>
         <% } %>
         <p><strong>Status:</strong> <%= round.active ? "Uplate aktivne" : "Uplate zatvorene" %></p>
