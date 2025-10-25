@@ -16,7 +16,17 @@ router.get("/", async (req, res) => {
     const result = await pool.query("SELECT * FROM rounds ORDER BY id DESC LIMIT 1");
     const currentRound = result.rows[0] || null;
 
-    res.render("index", { user, round: currentRound });
+    let ticketCount: number | null = null;
+
+    if (currentRound) {
+      const ticketsResult = await pool.query(
+        "SELECT COUNT(*) FROM tickets WHERE round_id = $1",
+        [currentRound.id]
+      );
+      ticketCount = parseInt(ticketsResult.rows[0].count, 10);
+    }
+
+    res.render("index", { user, round: currentRound, ticketCount });
   } catch (error) {
     console.error("Greška kod GET /:", error);
     res.status(500).send("Greška na serveru.");
