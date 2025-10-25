@@ -29,7 +29,7 @@ app.use(auth(config));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/admin", adminRoutes);
+app.use("/", adminRoutes);
 
 app.use("/", mainRoutes);
 
